@@ -21,12 +21,15 @@ const handleGetStockItem = (req, res, db) => {
 }
 
 const handleGetItemMovements = (req, res, db) => {
+	// Dates are returned and sent in UTC time - must be parsed in frontend
 	const { searchfield } = req.params
 	db.select(	
+		'stock_movement_id',
 		'stock_movement.stock_item_serial',
 		'location_name',
 		'movement_type',
-		'movement_date'
+		'movement_date',
+		'capture_date'
 	)
 	.from('stock_movement')
 	.leftJoin('stock_location', 'stock_location.location_id', 'stock_movement.location_to_id')
@@ -35,6 +38,7 @@ const handleGetItemMovements = (req, res, db) => {
 	.then(movements => res.json(movements))
 	.catch(err => res.status(400).json(err))
 }
+
 
 module.exports = {
 	handleGetStockItem,

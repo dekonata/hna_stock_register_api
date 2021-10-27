@@ -1,13 +1,20 @@
 const express = require("express");
 const app = express();
-const cors = require("cors")
-const knex = require("knex")
+const cors = require("cors");
+const knex = require("knex");
+const types = require('pg').types;
 
-const addstock = require('./controllers/addstock')
-const addlocation = require('./controllers/addlocation')
-const stockitem = require('./controllers/stockitem')
-const movestock = require('./controllers/movestock')
-const getlocationlist = require('./controllers/getlocationlist')
+const addstock = require('./controllers/addstock');
+const addlocation = require('./controllers/addlocation');
+const stockitem = require('./controllers/stockitem');
+const movestock = require('./controllers/movestock');
+const getlocationlist = require('./controllers/getlocationlist');
+const delete_stockmovement = require('./controllers/delete_stockmovement');
+
+
+// override parsing date and timestamp column to Date() as this causes timezone issue - convert to string
+types.setTypeParser(1082, val => val); 
+types.setTypeParser(1114, val => val); 
 
 app.use(express.json());
 app.use(cors());
@@ -18,7 +25,7 @@ const db = knex({   // create knex function
     host : '127.0.0.1',
     user : 'postgres',
     password : 'Ludium99',
-    database : 'hna_stock_register'
+    database : 'hna_stock_register',
   }
 });
 
@@ -40,6 +47,7 @@ app.get('/stockitem/:searchfield', (req, res) => stockitem.handleGetStockItem(re
 app.get('/stockmovements/:searchfield', (req, res) => stockitem.handleGetItemMovements(req, res, db));
 app.get('/locationlist', (req,res) => getlocationlist.handleGetLocationList(req, res ,db));
 app.post('/movestock', (req,res) => movestock.handleMoveStock(req, res ,db));
+app.delete('/delete_stockmovement', (req, res) => delete_stockmovement.handleDeleteStockMovement(req, res, db));
 
 app.get('/stockmakes', (req,res) => {
 	const stockdata = db('stock_item')
