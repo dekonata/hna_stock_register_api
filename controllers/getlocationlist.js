@@ -16,3 +16,7 @@ const handleGetLocationList = (req, res, db) => {
 module.exports = {
 	handleGetLocationList
 }
+
+module.exports = {
+	handleGetLocationList
+}

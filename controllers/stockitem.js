@@ -10,8 +10,8 @@ const handleGetStockItem = (req, res, db) => {
 		'location_to_id', 
 		'location_name',
 	)
-	.from('stock_movement')
-	.leftJoin('stock_item', 'stock_movement.stock_item_serial', 'stock_item.stock_item_serial' )
+	.from('stock_item')
+	.leftJoin('stock_movement', 'stock_item.stock_item_serial', 'stock_movement.stock_item_serial' )
 	.leftJoin('stock_location', 'stock_location.location_id', 'stock_movement.location_to_id')
 	.where({'stock_item.stock_item_serial': searchfield})
 	.orderBy('movement_date', 'desc')
