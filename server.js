@@ -11,6 +11,7 @@ const movestock = require('./controllers/movestock');
 const getlocationlist = require('./controllers/getlocationlist');
 const getselectorlists = require('./controllers/getselectorlists')
 const delete_stockmovement = require('./controllers/delete_stockmovement');
+const editstockitem = require('./controllers/editstockitem');
 
 
 // override parsing date and timestamp column to Date() as this causes timezone issue - convert to string
@@ -50,26 +51,7 @@ app.get('/locationlist', (req,res) => getlocationlist.handleGetLocationList(req,
 app.get('/selectorlists', (req,res) => getselectorlists.handleGetSelectorLists(req, res ,db));;
 app.post('/movestock', (req,res) => movestock.handleMoveStock(req, res ,db));
 app.delete('/delete_stockmovement', (req, res) => delete_stockmovement.handleDeleteStockMovement(req, res, db));
-
-app.get('/stockmakes', (req,res) => {
-	const stockdata = db('stock_item')
-		.distinct('make')
-		.then(makes =>{ 
-			makelist = makes.map(make => make.make)
-			return res.json(makelist)
-		})
-		.catch(err => res.status(400).json(err))
-});
-
-app.get('/serial_list', (req,res) => {
-	db('stock_item')
-	.distinct('stock_item_serial')
-	.then(serials =>{ 
-		serial_list = serials.map(serial => serial.stock_item_serial)
-		return res.json(serial_list)
-	})
-	.catch(err => res.status(400).json(err))
-});
+app.put('/editstockitem', (req, res) => editstockitem.handleEditStockItem(req, res, db));
 
 app.get('/stockdata', (req,res) => {
 	const searchfield = req.body.searchfield

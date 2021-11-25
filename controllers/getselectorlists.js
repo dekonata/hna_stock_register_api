@@ -11,7 +11,7 @@ const handleGetSelectorLists = (req, res, db) => {
 				return location.location_id + ' ' + location.location_name
 			});
 			const location_types = [...new Set(location_data.map(location => location.location_type))];
-			const suppliers = location_data.filter(location => location.location_type === 'Supplier').map(supplier => supplier.location_name)
+			const suppliers = location_data.filter(location => location.location_type === 'Supplier').map(supplier => supplier.location_id + ' ' + supplier.location_name)
 			return { locations, location_types, suppliers }
 		})
 		.catch(err => console.log('stock list faile with error: ' + err))
