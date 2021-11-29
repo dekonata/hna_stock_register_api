@@ -1,12 +1,11 @@
 const {toUpperValues} = require('../utils/utils');
 
 const handleAddLocation = (req, res, db) => {
-		const uppercase_body = toUpperValues(req.body)
 	const {
 		location_id,
 		location_type,
 		location_name
-	} = uppercase_body
+	} = req.body
 
 
 	db.insert({

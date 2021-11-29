@@ -1,8 +1,7 @@
 const {toUpperValues} = require('../utils/utils');
 
 const handleEditStockItem = (req, res, db) => {
-	const uppercase_body = toUpperValues(req.body)
-	const {stock_item_serial, update_hash } = uppercase_body
+	const {stock_item_serial, update_hash } = req.body
 
 	db('stock_item')
 		.where('stock_item_serial', '=', stock_item_serial)
