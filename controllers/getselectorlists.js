@@ -7,7 +7,6 @@ const handleGetSelectorLists = (req, res, db) => {
 		.then(location_data => {
 			const locations = location_data.map(location => {
 				// format list as "id clubname" string list for display in frontend suggestion box
-				console.log(location.location_id)
 				return location.location_id + ' ' + location.location_name
 			});
 			const location_types = [...new Set(location_data.map(location => location.location_type))];

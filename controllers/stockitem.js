@@ -2,17 +2,20 @@ const handleGetStockItem = (req, res, db) => {
 	const { searchfield } = req.params
 	db.select(	
 		'stock_item.stock_item_serial',
-		'stock_type', 
-		'make',
-		'model',
-		'stock_condition',
-		'stock_owner',
-		'location_to_id', 
-		'location_name',
+		'stock_item.stock_type', 
+		'stock_item.make',
+		'stock_item.model',
+		'stock_item.stock_condition',
+		'stock_item.stock_owner',
+		'stock_item.supplier_id',
+		'supplier.location_name as supplier_name',
+		'stock_movement.location_to_id', 
+		'current_location.location_name',
 	)
 	.from('stock_item')
 	.leftJoin('stock_movement', 'stock_item.stock_item_serial', 'stock_movement.stock_item_serial' )
-	.leftJoin('stock_location', 'stock_location.location_id', 'stock_movement.location_to_id')
+	.leftJoin('stock_location as current_location', 'current_location.location_id', 'stock_movement.location_to_id')
+	.leftJoin('stock_location as supplier', 'supplier.location_id', 'stock_item.supplier_id')
 	.where({'stock_item.stock_item_serial': searchfield})
 	.orderBy('movement_date', 'desc')
 	.limit(1)

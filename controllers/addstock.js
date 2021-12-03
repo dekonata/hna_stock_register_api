@@ -4,6 +4,7 @@ const handleAddStock = (req, res, db) => {
 		const {
 			stock_item_serial,
 			stock_type,
+			supplier_id,
 			make,
 			model,
 			stock_condition,
@@ -17,6 +18,7 @@ const handleAddStock = (req, res, db) => {
 		return trx.insert({			
 			stock_item_serial,
 			stock_type,
+			supplier_id,
 			make,
 			model,
 			stock_condition,
