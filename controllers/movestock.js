@@ -5,14 +5,16 @@ const handleMoveStock = (req, res, db) => {
 			stock_item_serial,
 			location_to_id,
 			movement_date,
-			stock_condition
+			stock_condition,
+			reference
 		} = req.body	
 
 		return trx.insert({
 			movement_type,
 			stock_item_serial,
 			location_to_id,
-			movement_date		
+			movement_date,
+			reference	
 		})
 		.into('stock_movement')
 		.then(() => {
