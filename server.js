@@ -7,6 +7,7 @@ const types = require('pg').types;
 const addstock = require('./controllers/addstock');
 const addlocation = require('./controllers/addlocation');
 const stockitem = require('./controllers/stockitem');
+const location = require('./controllers/getlocation');
 const movestock = require('./controllers/movestock');
 const getlocationlist = require('./controllers/getlocationlist');
 const getselectorlists = require('./controllers/getselectorlists')
@@ -42,10 +43,11 @@ note format: /endpoint --> Methot = Response
 // 	.then(result => console.log('test2')
 // 	);
 
-
+app.get('/', (req, res) => res.json('test'));
 app.post('/addstock', (req,res) => addstock.handleAddStock(req, res, db));
 app.post('/addlocation', (req, res) => addlocation.handleAddLocation(req, res, db));
 app.get('/stockitem/:searchfield', (req, res) => stockitem.handleGetStockItem(req, res, db));
+app.get('/stocklocation', (req, res) => location.handleGetLocation(req, res, db));
 app.get('/stockmovements/:searchfield', (req, res) => stockitem.handleGetItemMovements(req, res, db));
 app.get('/locationlist', (req,res) => getlocationlist.handleGetLocationList(req, res ,db));
 app.get('/selectorlists', (req,res) => getselectorlists.handleGetSelectorLists(req, res ,db));;
